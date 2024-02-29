@@ -1,0 +1,99 @@
+Milestone 2 Design Document
+02/09/2024
+Jaren Mease, Jared Acosta, Brandon Woodruff, Colton Evans 
+
+Overview:
+This milestone will include a simple virtual machine that can interpret machine language called BasicML. The program will handle a 100-word memory and will provide basic machine operations such as Read and Write. It will also handle basic arithmetic as well. 
+
+User Story:
+“As a computer science student, Taylor wants to run BasicML programs with I/O, Load/Store, Arithmetic, and Control instructions on the UVSim simulator so that she can learn more about machine language and computer architecture.”
+
+User Story #2:
+"As a member of this project for "UVSim", Joe wants the program to execute correct BasicML codes while bypassing any possible input errors so that the program will run even if there are errors in the commands."
+
+Use Case 1:
+Actor: The program, 
+System: The Load function, 
+Goal: Successfully load a value into the accumulator. 
+Steps:
+1. The program acts upon a Load instruction by calling the Load function with the operand and memory
+2. The Load Function loads the memory location with the operand into the accumulator.
+
+Use Case 2:
+Actor: The program,
+System: The Store function,
+Goal: Successfully store a value from the accumulator to memory
+Steps:
+1. The program acts upon a Store instruction by calling the Store function with the accumulator, operand and memory
+2.  The Store function stores the accumulator value into the memory location based on the operand.
+
+Use Case 3:
+Actor: The program,
+System: the Multiply function,
+Goal: Successfully multiply a value in memory with the value in the accumulator.
+Steps:
+1. The program acts upon a Multiply instruction by calling the Multiply function with the accumulator, operand, and memory
+2. The Multiply function multiplies the accumulator with the value stored in memory.
+
+Use Case 4:
+Actor: The program,
+System: the Divide function,
+Goal: Successfully Divide a value in the accumulator by the value in memory.
+Steps:
+1. The program acts upon a Divide instruction by calling the Divide function with the accumulator, operand, and memory
+2. The Divide function Divides the accumulator by the value stored in memory.
+
+Use Case 5:
+Actor: The program,
+System: The branch function,
+Goal: to be able to use branch function to jump to another part of the function based on the operand.
+Steps:
+1. The program acts upon a Branch instruction by calling the Branch function with the operand.
+2. the Branch function branches the program to go on to the location given by the operand.
+
+Use Case 6:
+Actor: The program,
+System: The branchNeg function,
+Goal: to be able to use branch function to jump to another part of the function based on the operand being positive or negative.
+Steps:
+1. The program acts upon a BranchNeg instruction by calling the BranchNeg function with the operand.
+2. The BranchNeg function checks if the value of the accumulator is positive or negative
+3. If the value is Negative, the function jumps the program to the location given in the accumulator, operand, and pc.
+4. If the value is positive, the program keeps going without jumping to the location given in the operand.
+
+Use Case 7:
+Actor: The program,
+System: The branchZero function,
+Goal: to be able to use branch function to jump to another part of the function based on the operand being zero or not.
+Steps:
+1. The program acts upon a BranchZero instruction by calling the BranchZero function with the accumulator, operand, pc.
+2. The BranchNeg function checks if the value of the accumulator is zero or not.
+3. If the value is zero, the function jumps the program to the location given in the operand.
+4. If the value is not zero, the program keeps going without jumping to the location given in the operand.
+
+Use Case 8:
+Actor: The program,
+System: The read_ml_program function,
+Goal: to be able to give the function a .txt file and have it be able to convert the file to be able to be read by the execute_file function.
+Steps:
+1. The program askes for an input file
+2. The program confirms that the file exists.
+3. the program then reads the file and breaks each command into operands and instructions
+4. If the file gives an invalid instruction, it gives a valueError
+5. If all values are viable, it puts the values into an array to be read by the execute_program function.
+
+Use Case 9:
+Actor: The program,
+System: The add function,
+Goal: To successfully add a value in memory to the accumulator
+Steps:
+ 1. The program acts upon a Add instruction by calling the add function with the accumulator, operand, and memory
+2. The add function adds the accumulator with the value stored in memory, leaving the result in the accumulator
+
+Use Case 10:
+Actor: The program,
+System: the subtract function,
+Goal: To successfully subtract a value in memory from the accumulator and store it in the accumulator
+Steps:
+ 1. The program acts upon a Subtract instruction by calling the Subtract function with the accumulator, operand, and memory
+2. The subtract function subtract the accumulator with the value stored in memory, leaving the result in the accumulator
