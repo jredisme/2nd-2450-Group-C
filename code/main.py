@@ -7,6 +7,7 @@ def main():
     my_gui = SimpleGUI(my_sim) # intialize gui, pass sim to gui
     my_gui.main.mainloop() #loops through GUI operations while GUi is open
 
+
 if __name__ == "__main__":
     main()
     

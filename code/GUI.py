@@ -1,7 +1,9 @@
+import sys
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from execute_program import Execute
+
 
 class SimpleGUI:
     '''This class creates a simple GUI using tkinter'''
@@ -11,14 +13,18 @@ class SimpleGUI:
         self.main.geometry("500x500") # dimensions of main window
         self.main.configure(bg="lightblue")  # main window color
         self.sim = sim
-        
+
         # label for main window with initial file select message
         self.label = tk.Label(self.main, text="Welcome to the UVUSIM! Please select a text file to run:")
         self.label.pack(pady=10)
-        
+
         # file select submit button
         self.file_button = tk.Button(self.main, text="Select File", command=self.select_file) # call select_file
         self.file_button.pack()  # put button in block
+
+        self.exit_button = tk.Button(self.main, text="Exit", command=self.destroy_program) # call main.destroy
+        self.exit_button.pack(side=tk.BOTTOM, pady=10)
+        self.exit_button.config(height=2, width=10)
 
         # output sim operation log to user
         self.label = tk.Label(self.main, text="UVSim operations log")
@@ -37,27 +43,30 @@ class SimpleGUI:
                         self._program.append(int(line.strip()))  # add each line of program to program, check for int
                 self.load_file()   # load program into sim
                 Execute.execute_program(self.sim, self)  # execute program with Execute class
-                self.final_output()  # output accumulator value in gui
-                self.main.destroy()  # exit gui
+                self.final_output()  # output accumulator value in gui  # ask user for next action
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         else:
             messagebox.showinfo("Info", "No file selected.")
-    
+
+    def destroy_program(self):
+        sys.exit()
+
     def load_file(self):
         # load program from the user-selected file into the sim
         self.sim.load_ml_program(self._program)
-    
+
     def operations_output(self, op, func_name, operand):
-        # output accumulator value in gui
-        output = f'Performed op {op}: {func_name} with operand {operand}\n'
-        self.operations_text.insert(tk.END, output)
+        if op == 11:
+            output = f"Memory Location {operand}: {self.sim._memory[operand]}\n"
+            self.operations_text.insert(tk.END, output)
+
 
     def final_output(self):
         # output accumulator value in gui
         output = f"Final accumulator value: {self.sim._accumulator}\n"
         self.operations_text.insert(tk.END, output)
-        messagebox.showinfo("Result: ", f"Final Accumulator Value: {self.sim._accumulator}") 
+        # messagebox.showinfo("Result: ", f"Final Accumulator Value: {self.sim._accumulator}")
 
     def read(self):
         #Read a word from the keyboard into memory
@@ -80,13 +89,13 @@ class SimpleGUI:
         entry.pack(pady=5)
         submit_button = tk.Button(entry_window, text="Submit", command=submit)
         submit_button.pack(pady=5)
-        
+
         entry_window.wait_window()  #wait for user input before continuing
-    
+
     def write(self):
-        # write a word from memory to gui
-        value = self.sim._memory[self.sim._operand]
-        messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
+        self.sim._memory[self.sim._operand]
+        # self.operations_text.insert(tk.END, f"Memory Location {self.sim._operand}: {self.sim._memory[self.sim._operand]}\n")
+    #     # messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
     def too_long(self):
         # gui error message if sim pc exceeds available memory
