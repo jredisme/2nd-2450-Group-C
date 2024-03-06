@@ -2,15 +2,17 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from execute_program import Execute
+from process_program import Process
 
 class SimpleGUI:
     '''This class creates a simple GUI using tkinter'''
-    def __init__(self, sim):
+    def __init__(self, sim, memory):
         self.main = tk.Tk()  # create the main gui window
         self.main.title("UVSIM")  # title of main window
         self.main.geometry("500x500") # dimensions of main window
         self.main.configure(bg="lightblue")  # main window color
         self.sim = sim
+        self.memory = memory
         
         # label for main window with initial file select message
         self.label = tk.Label(self.main, text="Welcome to the UVUSIM! Please select a text file to run:")
@@ -31,22 +33,16 @@ class SimpleGUI:
         # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
-            try:
-                with open(file_path, 'r') as file:
-                    for line in file:
-                        self._program.append(int(line.strip()))  # add each line of program to program, check for int
-                self.load_file()   # load program into sim
-                Execute.execute_program(self.sim, self)  # execute program with Execute class
+            try:                         
+                program = Process.read_txt(file_path)  # read program with Process class
+                self.memory.load_program(program)  # load program into memory
+                Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
                 self.final_output()  # output accumulator value in gui
                 self.main.destroy()  # exit gui
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         else:
             messagebox.showinfo("Info", "No file selected.")
-    
-    def load_file(self):
-        # load program from the user-selected file into the sim
-        self.sim.load_ml_program(self._program)
     
     def operations_output(self, op, func_name, operand):
         # output accumulator value in gui
@@ -68,7 +64,8 @@ class SimpleGUI:
         def submit():
             try:
                 value = int(entry.get())  #check for int
-                self.sim._memory[self.sim._operand] = value  # place user input into memory
+                self.memory.truncate(value)  #truncate if the user value exceeds 4 digits
+                self.memory._registers[self.sim._operand] = value  # place user input into memory
                 entry_window.destroy()  # close user input window
             except ValueError:
                 messagebox.showerror("Error", "Please enter a valid number.")
@@ -85,7 +82,7 @@ class SimpleGUI:
     
     def write(self):
         # write a word from memory to gui
-        value = self.sim._memory[self.sim._operand]
+        value = self.memory._registers[self.sim._operand]
         messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
     def too_long(self):
