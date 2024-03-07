@@ -29,3 +29,7 @@ class Memory():
     def len(self):
         # return length of registers list
         return len(self._registers)
+    
+    def clear(self):
+        # clear memory
+        self._registers = [0] * self.len()
