@@ -11,17 +11,6 @@ class SimpleGUI:
         self.main.geometry("500x500") # dimensions of main window
         self.main.configure(bg="lightblue")  # main window color
         self.sim = sim
-<<<<<<< Updated upstream
-        
-        # label for main window with initial file select message
-        self.label = tk.Label(self.main, text="Welcome to the UVUSIM! Please select a text file to run:")
-        self.label.pack(pady=10)
-        
-        # file select submit button
-        self.file_button = tk.Button(self.main, text="Select File", command=self.select_file) # call select_file
-        self.file_button.pack()  # put button in block
-
-=======
         self.menu_bar = tk.Menu(self.main)  # create menu bar
 
         # label for main window with initial file select message
@@ -49,7 +38,6 @@ class SimpleGUI:
         self.label_2 = tk.Label(self.main, text="UVSim code block")
         self.code_text = tk.Text(self.main, height=10, width=40)
         self.code_text.pack(pady=10)
->>>>>>> Stashed changes
         # output sim operation log to user
         self.label = tk.Label(self.main, text="UVSim operations log")
         self.operations_text = tk.Text(self.main, height=10, width=40)
@@ -75,25 +63,12 @@ class SimpleGUI:
                 with open(file_path, 'r') as file:
                     for line in file:
                         self._program.append(int(line.strip()))  # add each line of program to program, check for int
-<<<<<<< Updated upstream
-                self.load_file()   # load program into sim
-                Execute.execute_program(self.sim, self)  # execute program with Execute class
-                self.final_output()  # output accumulator value in gui
-                self.main.destroy()  # exit gui
-=======
                         self.code_text.insert(tk.END, f"{line}")  # output program to gui
->>>>>>> Stashed changes
-            except Exception as e:
-                messagebox.showerror("Error", str(e))
+            
         else:
             messagebox.showinfo("Info", "No file selected.")
     
     def load_file(self):
-<<<<<<< Updated upstream
-        # load program from the user-selected file into the sim
-        self.sim.load_ml_program(self._program)
-    
-=======
         self._program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
                 # load program from the user-selected file into the sim
 
@@ -101,7 +76,6 @@ class SimpleGUI:
         Execute.execute_program(self.sim, self)  # execute program with Execute class
         self.final_output()  # output accumulator value in gui
 
->>>>>>> Stashed changes
     def operations_output(self, op, func_name, operand):
         # output accumulator value in gui
         output = f'Performed op {op}: {func_name} with operand {operand}\n'
@@ -112,6 +86,10 @@ class SimpleGUI:
         output = f"Final accumulator value: {self.sim._accumulator}\n"
         self.operations_text.insert(tk.END, output)
         messagebox.showinfo("Result: ", f"Final Accumulator Value: {self.sim._accumulator}") 
+    
+    def destroy_program(self):
+        # close the main window
+        self.main.destroy()
 
     def read(self):
         #Read a word from the keyboard into memory
