@@ -2,17 +2,22 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from execute_program import Execute
+from process_program import Process
 
 class SimpleGUI:
     '''This class creates a simple GUI using tkinter'''
-    def __init__(self, sim):
+    def __init__(self, sim, memory):
         self.main = tk.Tk()  # create the main gui window
         self.main.title("UVSIM")  # title of main window
         self.main.geometry("500x500") # dimensions of main window
         self.main.configure(bg="lightblue")  # main window color
         self.sim = sim
+
         self.menu_bar = tk.Menu(self.main)  # create menu bar
 
+
+        self.memory = memory
+        
         # label for main window with initial file select message
         self.label = tk.Label(self.main, text="Welcome to the UVUSIM! Please select a text file to run:")
         self.label.pack(pady=10)
@@ -75,6 +80,17 @@ class SimpleGUI:
         Execute.execute_program(self.sim, self)  # execute program with Execute class
         self.final_output()  # output accumulator value in gui
 
+            try:                         
+                program = Process.read_txt(file_path)  # read program with Process class
+                self.memory.load_program(program)  # load program into memory
+                Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
+                self.final_output()  # output accumulator value in gui
+                self.main.destroy()  # exit gui
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+        else:
+            messagebox.showinfo("Info", "No file selected.")
+    
     def operations_output(self, op, func_name, operand):
         # output accumulator value in gui
         output = f'Performed op {op}: {func_name} with operand {operand}\n'
@@ -99,7 +115,8 @@ class SimpleGUI:
         def submit():
             try:
                 value = int(entry.get())  #check for int
-                self.sim._memory[self.sim._operand] = value  # place user input into memory
+                self.memory.truncate(value)  #truncate if the user value exceeds 4 digits
+                self.memory._registers[self.sim._operand] = value  # place user input into memory
                 entry_window.destroy()  # close user input window
             except ValueError:
                 messagebox.showerror("Error", "Please enter a valid number.")
@@ -116,7 +133,7 @@ class SimpleGUI:
     
     def write(self):
         # write a word from memory to gui
-        value = self.sim._memory[self.sim._operand]
+        value = self.memory._registers[self.sim._operand]
         messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
     def too_long(self):
