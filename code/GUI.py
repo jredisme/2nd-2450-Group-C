@@ -59,7 +59,6 @@ class SimpleGUI:
         # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
-            try:
                 with open(file_path, 'r') as file:
                     for line in file:
                         self._program.append(int(line.strip()))  # add each line of program to program, check for int
