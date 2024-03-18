@@ -17,8 +17,9 @@ class Memory():
             self._registers[i] = self.truncate(instruction)  # avoid overflow
     
     def truncate(self, value):
-        # truncate value to four digits to avoid overflow when needed  
+        # truncate value to four digits to avoid overflow when needed 
         if value > 9999:
+            print("tried to truncate")
             value %= 10000 
         elif value < -9999:
             value = -value
