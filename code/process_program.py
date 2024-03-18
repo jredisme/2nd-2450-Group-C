@@ -8,6 +8,6 @@ class Process:
         program = []
         with open(file_path, 'r') as file:
             for line in file:
-                program.append(line)  # add each line of program to program, check for int
+                program.append(int(line.strip()))  # add each line of program to program, check for int
         return program
        

@@ -63,20 +63,33 @@ class SimpleGUI:
     def select_file(self):
         # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
-        self._program = Process.read_txt(file_path)
-        for line in self._program:
-            self.code_text.insert(tk.END, f"{line}\n")
-        
+        if file_path:
+                with open(file_path, 'r') as file:
+                    for line in file:
+                        self._program.append(int(line.strip()))  # add each line of program to program, check for int
+                        self.code_text.insert(tk.END, f"{line}")  # output program to gui
+            
+        else:
+            messagebox.showinfo("Info", "No file selected.")
     
     def load_file(self):
         self._program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
                 # load program from the user-selected file into the sim
-        self.memory.load_program(self._program)  # load program into memory
+
+        self.sim.load_ml_program(self._program)  # load program into sim
         Execute.execute_program(self.sim, self)  # execute program with Execute class
         self.final_output()  # output accumulator value in gui
-        self.memory.clear()  # clear memory
 
-
+            try:                         
+                program = Process.read_txt(file_path)  # read program with Process class
+                self.memory.load_program(program)  # load program into memory
+                Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
+                self.final_output()  # output accumulator value in gui
+                self.main.destroy()  # exit gui
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+        else:
+            messagebox.showinfo("Info", "No file selected.")
     
     def operations_output(self, op, func_name, operand):
         # output accumulator value in gui
@@ -118,10 +131,10 @@ class SimpleGUI:
         
         entry_window.wait_window()  #wait for user input before continuing
     
-    def write(self, value, operand):
+    def write(self):
         # write a word from memory to gui
-        self.operations_text.insert(tk.END, f"Write Operation: Value at memory location {operand}: {value}\n")
-        # messagebox.showinfo("Write Operation", f"Value at memory location {operand}: {value}")
+        value = self.memory._registers[self.sim._operand]
+        messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
     def too_long(self):
         # gui error message if sim pc exceeds available memory
