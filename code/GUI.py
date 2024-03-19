@@ -1,6 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog
-from tkinter import messagebox
+from tkinter import filedialog, messagebox, colorchooser
 from execute_program import Execute
 from process_program import Process
 
@@ -9,10 +8,11 @@ class SimpleGUI:
     def __init__(self, sim, memory):
         self.main = tk.Tk()  # create the main gui window
         self.main.title("UVSIM")  # title of main window
+        self.main.configure(bg="#4C721D")  # main window color
         self.main.geometry("500x500") # dimensions of main window
-        self.main.configure(bg="lightblue")  # main window color
         self.sim = sim
         self.memory = memory
+        self._program = []  # initialize empty program
 
         # create menu bar
         self.menu_bar = tk.Menu(self.main)
@@ -20,26 +20,22 @@ class SimpleGUI:
         self.file_menu.add_command(label="Open", command=self.open_file)  # call open_file
         self.file_menu.add_command(label="Save Code Block", command=self.save_code_block)  # call save_code_block
         self.file_menu.add_command(label="Run Code Block", command=self.run_code_block)  # call run_code_block
+        self.file_menu.add_command(label="Configure Color Scheme", command=self.configure_color_scheme)
         self.menu_bar.add_cascade(label="File", menu=self.file_menu)  # add file menu to menu bar
-        self.main.config(menu=self.menu_bar)  # add menu bar to main window  # put text widget in block
+        self.main.config(menu=self.menu_bar)  # add menu bar to main window 
         
-        # label for main window with initial file select message
+        # create labels and text box widgets
         self.label_1 = tk.Label(self.main, text="Welcome to the UVUSIM! Please select a text file to run:")
-        self.label_1.pack(pady=10)
-
-        # labels for code block and code text
         self.label_2 = tk.Label(self.main, text="UVSim code block")
-        self.code_text = tk.Text(self.main, height=10, width=40)
-        self.label_2.pack(pady=10)
-        self.code_text.pack(pady=10)
-
-        # output sim operation log to user
         self.label_3 = tk.Label(self.main, text="UVSim operations log")
+        self.code_text = tk.Text(self.main, height=10, width=40)
         self.operations_text = tk.Text(self.main, height=10, width=40, state=tk.DISABLED)  #Read-only
-        self.label_3.pack(pady=10)
-        self.operations_text.pack(pady=10)
 
-        self._program = []  # initialize empty program
+        # pack widgets and set default off color
+        widgets = [self.label_1, self.label_2, self.code_text, self.label_3, self.operations_text]
+        for widget in widgets:
+            widget.pack(pady=10)
+            widget.configure(bg="#FFFFFF")
 
     def open_file(self):
         # search directories and choose a txt file
@@ -70,17 +66,25 @@ class SimpleGUI:
         try:
             self.memory.load_program(program)   # load program from the user text input into the sim
             Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
-            self.final_output()  # output accumulator value in gui
+            self.output(f"Final accumulator value: {self.sim._accumulator}\n\n")  # output accumulator value in gui
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    def final_output(self):
-        # output accumulator value to gui
-        output = f"Final accumulator value: {self.sim._accumulator}\n"
+    def configure_color_scheme(self):
+        # Function to configure color scheme
+        primary_color = colorchooser.askcolor(title="Choose Primary Color")[1]
+        off_color = colorchooser.askcolor(title="Choose Off Color")[1]
+        # Apply the chosen colors to the GUI
+        self.main.configure(bg=primary_color)
+        widgets_off_color = [self.label_1, self.label_2, self.label_3, self.code_text, self.operations_text]
+        for widget in widgets_off_color:
+            widget.configure(bg=off_color)
+
+    def output(self, output):
+        # output to gui
         self.operations_text.config(state=tk.NORMAL)
         self.operations_text.insert(tk.END, output)
         self.operations_text.config(state=tk.DISABLED)
-        messagebox.showinfo("Result: ", f"Final Accumulator Value: {self.sim._accumulator}") 
 
     def read(self):
         #Read a word from the keyboard into memory
@@ -110,11 +114,4 @@ class SimpleGUI:
     def write(self):
         # write a word from memory to gui
         value = self.memory._registers[self.sim._operand]
-        output = f"Write Op: Value at register {self.sim._operand}: {value}\n"
-        self.operations_text.config(state=tk.NORMAL)
-        self.operations_text.insert(tk.END, output)
-        self.operations_text.config(state=tk.DISABLED)
-
-    def too_long(self):
-        # gui error message if sim pc exceeds available memory
-        messagebox.showerror("Error", "Program too long.")
+        self.output(f"Write Op: Value at register {self.sim._operand}: {value}\n")
