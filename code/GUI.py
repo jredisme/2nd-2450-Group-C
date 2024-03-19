@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter import colorchooser
 from execute_program import Execute
 from process_program import Process
 
@@ -10,7 +11,8 @@ class SimpleGUI:
         self.main = tk.Tk()  # create the main gui window
         self.main.title("UVSIM")  # title of main window
         self.main.geometry("500x500") # dimensions of main window
-        self.main.configure(bg="lightblue")  # main window color
+        self.main.configure(bg="#4C721D")  # main window color
+        
         self.sim = sim
 
         self.menu_bar = tk.Menu(self.main)  # create menu bar
@@ -26,6 +28,8 @@ class SimpleGUI:
         self.file_menu.add_command(label="Open", command=self.select_file)  # call select_file
         self.file_menu.add_command(label="Save", command=self.save_file)  # call save_file
         self.file_menu.add_command(label="Run", command=self.load_file)  # call load_file
+        self.file_menu.add_command(label="Configure Color Scheme", command=self.configure_color_scheme)
+
         self.menu_bar.add_cascade(label="File", menu=self.file_menu)  # add file menu to menu bar
         self.main.config(menu=self.menu_bar)  # add menu bar to main window  # put text widget in block
         # # file select submit button
@@ -48,6 +52,9 @@ class SimpleGUI:
         self.operations_text = tk.Text(self.main, height=10, width=40)
         self.operations_text.pack(pady=10)
 
+        self.operations_text.configure(bg="#FFFFFF") #texbox color
+        self.code_text.configure(bg="#FFFFFF") #textbox color
+
         self._program = []  # initialize empty program
         
     def save_file(self):
@@ -63,21 +70,45 @@ class SimpleGUI:
     def select_file(self):
         # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
-        self._program = Process.read_txt(file_path)
-        for line in self._program:
-            self.code_text.insert(tk.END, f"{line}\n")
-        
+        if file_path:
+                with open(file_path, 'r') as file:
+                    for line in file:
+                        self._program.append(int(line.strip()))  # add each line of program to program, check for int
+                        self.code_text.insert(tk.END, f"{line}")  # output program to gui
+            
+        else:
+            messagebox.showinfo("Info", "No file selected.")
     
     def load_file(self):
         self._program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
                 # load program from the user-selected file into the sim
-        self.memory.load_program(self._program)  # load program into memory
+
+        self.sim.load_ml_program(self._program)  # load program into sim
         Execute.execute_program(self.sim, self)  # execute program with Execute class
         self.final_output()  # output accumulator value in gui
-        self.memory.clear()  # clear memory
 
+        '''try:                         
+            program = Process.read_txt(file_path)  # read program with Process class
+            self.memory.load_program(program)  # load program into memory
+            Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
+            self.final_output()  # output accumulator value in gui
+            self.main.destroy()  # exit gui
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+        else:
+            messagebox.showinfo("Info", "No file selected.")'''
+        
+    def configure_color_scheme(self):
+        # Function to configure color scheme
+        primary_color = colorchooser.askcolor(title="Choose Primary Color")[1]
+        off_color = colorchooser.askcolor(title="Choose Off Color")[1]
 
-    
+        # Apply the chosen colors to the GUI
+        self.main.configure(bg=primary_color)
+        self.label.configure(bg=primary_color)
+        self.code_text.configure(bg=off_color)
+        self.operations_text.configure(bg=off_color)
+
     def operations_output(self, op, func_name, operand):
         # output accumulator value in gui
         output = f'Performed op {op}: {func_name} with operand {operand}\n'
@@ -118,10 +149,10 @@ class SimpleGUI:
         
         entry_window.wait_window()  #wait for user input before continuing
     
-    def write(self, value, operand):
+    def write(self):
         # write a word from memory to gui
-        self.operations_text.insert(tk.END, f"Write Operation: Value at memory location {operand}: {value}\n")
-        # messagebox.showinfo("Write Operation", f"Value at memory location {operand}: {value}")
+        value = self.memory._registers[self.sim._operand]
+        messagebox.showinfo("Write Operation", f"Value at memory location {self.sim._operand}: {value}")
 
     def too_long(self):
         # gui error message if sim pc exceeds available memory
