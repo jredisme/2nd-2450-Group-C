@@ -41,4 +41,4 @@ class Execute:
             if sim._op not in (40, 41, 42):  # if not a branch op
                 sim._pc += 1
         if sim._pc > 99:
-            gui.too_long() #front end function
+            gui.output("Error, Program too long.\n") #front end function
