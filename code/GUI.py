@@ -32,6 +32,7 @@ class SimpleGUI:
         self.code_text = tk.Text(self.main, height=10, width=40)
         self.operations_text = tk.Text(self.main, height=10, width=40, state=tk.DISABLED)  #Read-only
         self.code_text.bind("<Key>", self.limit_code_lines)  # limit the number of lines in the code block
+        
         # pack widgets and set default off color
         widgets = [self.label_1, self.label_2, self.code_text, self.label_3, self.operations_text]
         for widget in widgets:
@@ -48,7 +49,6 @@ class SimpleGUI:
             # delete the last line
             self.code_text.delete(f"{current_lines}.0", tk.END)
             messagebox.showwarning("Warning", "Only 100 registers are available. Please remove some lines and try again")
-            
 
     def open_file(self):
         # search directories and choose a txt file
@@ -81,9 +81,6 @@ class SimpleGUI:
                     self._program = [int(line.strip()) for line in stripped_lines]
             except Exception as e:
                 messagebox.showerror("Error", str(e))
-
-
-
 
     def run_code_block(self):
         program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
