@@ -54,8 +54,6 @@ class SimpleGUI:
         # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         self.code_text.delete(1.0, tk.END)  # clear previous input
-        #clear all of previous input
-        self.operations_text.delete(1.0, tk.END)
         if file_path:
             try:                         
                 program = Process.read_txt(file_path)
