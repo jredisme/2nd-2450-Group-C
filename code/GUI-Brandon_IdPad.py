@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, colorchooser
 from execute_program import Execute
 from process_program import Process
-import os
 
 class SimpleGUI:
     '''This class creates a simple GUI using tkinter'''
@@ -31,38 +30,20 @@ class SimpleGUI:
         self.label_3 = tk.Label(self.main, text="UVSim operations log")
         self.code_text = tk.Text(self.main, height=10, width=40)
         self.operations_text = tk.Text(self.main, height=10, width=40, state=tk.DISABLED)  #Read-only
-        self.code_text.bind("<Key>", self.limit_code_lines)  # limit the number of lines in the code block
-        
+
         # pack widgets and set default off color
         widgets = [self.label_1, self.label_2, self.code_text, self.label_3, self.operations_text]
         for widget in widgets:
             widget.pack(pady=10)
             widget.configure(bg="#FFFFFF")
-    
-    def limit_code_lines(self, event):
-    # limit the number of lines in the code block
-        current_text = self.code_text.get("1.0", "end-1c")  # Get the current text in the code block
-        non_empty_lines = [line for line in current_text.split("\n") if line.strip()]  # Filter out empty lines
-        current_lines = len(non_empty_lines)  # Count the non-empty lines
-        # if the number of lines exceeds 100, delete the last line
-        if current_lines > 100:
-            # delete the last line
-            self.code_text.delete(f"{current_lines}.0", tk.END)
-            messagebox.showwarning("Warning", "Only 100 registers are available. Please remove some lines and try again")
 
     def open_file(self):
         # search directories and choose a txt file
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         self.code_text.delete(1.0, tk.END)  # clear previous input
-        #clear all of previous input
-        self.operations_text.delete(1.0, tk.END)
         if file_path:
             try:                         
                 program = Process.read_txt(file_path)
-                # only take the first 100 lines of the file
-                if len(program) > 100:
-                    program = program[:100] # take the first 100 lines
-                    messagebox.showwarning("Warning", "Only 100 registers are available. Only the first 100 lines will be used. Please remove some lines and try again")
                 for line in program:
                     self.code_text.insert(tk.END, f"{line}\n")
             except Exception as e:
@@ -74,11 +55,9 @@ class SimpleGUI:
         file_path = filedialog.asksaveasfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
             try:
-                with open(file_path, 'w') as file:  # Open file in write mode ('w')
-                    lines = self.code_text.get(1.0, tk.END).split("\n")
-                    stripped_lines = [line.strip() for line in lines if line.strip()]  # Strip leading and trailing whitespace
-                    file.write("\n".join(stripped_lines))
-                    self._program = [int(line.strip()) for line in stripped_lines]
+                with open(file_path, 'w') as file:
+                    file.write(self.code_text.get(1.0, tk.END))
+                    self._program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
             except Exception as e:
                 messagebox.showerror("Error", str(e))
 
