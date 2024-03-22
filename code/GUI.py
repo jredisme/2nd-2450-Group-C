@@ -87,7 +87,11 @@ class SimpleGUI:
         Execute.execute_program(self.sim, self)  # execute program with Execute class
         self.final_output()  # output accumulator value in gui
 
+<<<<<<< HEAD
          try:                         
+=======
+        '''try:                         
+>>>>>>> 57bea1f5d1e3dcf17afe7663d6c79b0b79efbd81
             program = Process.read_txt(file_path)  # read program with Process class
             self.memory.load_program(program)  # load program into memory
             Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
@@ -96,7 +100,11 @@ class SimpleGUI:
         except Exception as e:
             messagebox.showerror("Error", str(e))
         else:
+<<<<<<< HEAD
             messagebox.showinfo("Info", "No file selected.")
+=======
+            messagebox.showinfo("Info", "No file selected.")'''
+>>>>>>> 57bea1f5d1e3dcf17afe7663d6c79b0b79efbd81
         
     def configure_color_scheme(self):
         # Function to configure color scheme
