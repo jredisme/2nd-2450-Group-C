@@ -37,7 +37,7 @@ class SimpleGUI:
         widgets = [self.label_1, self.label_2, self.code_text, self.label_3, self.operations_text]
         for widget in widgets:
             widget.pack(pady=10)
-            widget.configure(bg="#FFFFFF")
+            widget.configure(bg="#FFFFFF", fg="#000000")
     
     def limit_code_lines(self, event):
     # limit the number of lines in the code block
