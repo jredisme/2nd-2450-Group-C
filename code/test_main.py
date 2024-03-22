@@ -2,7 +2,8 @@ import pytest
 from main import *
 from execute_program import *
 from uvsim import *
-from GUI import *
+from GUI_layout import *
+from GUI_actions import *
 
 def test_always_passes():
     assert True
@@ -130,7 +131,7 @@ def test_add2():
     my_memory = Memory(100)
     my_Sim.set_program([3005, 4300, 0000, 0000, 0000, 5])
     my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, SimpleGUI(my_Sim, my_memory), my_memory)
+    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)
     result = my_Sim.get_accumulator()
     assert result == 10
     
@@ -147,7 +148,7 @@ def test_subtract2():
     my_Sim.set_accumulator(10)
     my_Sim.set_program([3105, 4300, 0000, 0000, 0000, 5])
     my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, SimpleGUI(my_Sim, my_memory), my_memory)
+    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)
     result = my_Sim.get_accumulator()
     assert result == 5
     
@@ -156,7 +157,7 @@ def test_execute_my_Sim():
     my_memory = Memory(100)
     my_Sim.set_program([2006, 3006, 3106, 3006, 4300, 0000, 5])
     my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, SimpleGUI(my_Sim, my_memory), my_memory)
+    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)
     result = my_Sim.get_accumulator()
     assert result == 10
 
@@ -165,6 +166,6 @@ def test_execute_my_Sim2():
     my_memory = Memory(100)
     my_Sim.set_program([2005, 3110, 4300, 0000, 0000, 10, 0000, 0000, 0000, 0000, 5])
     my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, SimpleGUI(my_Sim, my_memory), my_memory)
+    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)         
     result = my_Sim.get_accumulator()
     assert result == 5
