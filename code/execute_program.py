@@ -42,3 +42,4 @@ class Execute:
                 sim._pc += 1
         if sim._pc > 99:
             gui.output("Error, Program too long.\n") #front end function
+        memory.clear() #clear memory for next program
