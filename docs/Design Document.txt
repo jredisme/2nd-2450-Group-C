@@ -1,9 +1,9 @@
-Milestone 2 Design Document
-02/09/2024
+Milestone 4 Design Document
+03/22/2024
 Jaren Mease, Jared Acosta, Brandon Woodruff, Colton Evans 
 
 Overview:
-This milestone will include a simple virtual machine that can interpret machine language called BasicML. The program will handle a 100-word memory and will provide basic machine operations such as Read and Write. It will also handle basic arithmetic as well. 
+This milestone will include a simple virtual machine that can interpret machine language called BasicML. The program will handle a 100-word memory and will provide basic machine operations such as Read and Write. It will also handle basic arithmetic as well. The user can interact with the virtual machine via a GUI. 
 
 User Story:
 “As a computer science student, Taylor wants to run BasicML programs with I/O, Load/Store, Arithmetic, and Control instructions on the UVSim simulator so that she can learn more about machine language and computer architecture.”
@@ -73,14 +73,12 @@ Steps:
 
 Use Case 8:
 Actor: The program,
-System: The read_ml_program function,
-Goal: to be able to give the function a .txt file and have it be able to convert the file to be able to be read by the execute_file function.
+System: The read_txt function,
+Goal: to be able to convert a .txt file path to a program that is output as lines in the code_text box.
 Steps:
-1. The program askes for an input file
-2. The program confirms that the file exists.
-3. the program then reads the file and breaks each command into operands and instructions
-4. If the file gives an invalid instruction, it gives a valueError
-5. If all values are viable, it puts the values into an array to be read by the execute_program function.
+1. The program opens the file path as a read file
+2. The program iterates over each line in the file
+3. The program then appends each line of the file to a list and returns that list
 
 Use Case 9:
 Actor: The program,
