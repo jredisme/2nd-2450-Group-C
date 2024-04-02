@@ -42,9 +42,7 @@ class GUIActions (GUILayout):
                 messagebox.showerror("Error", str(e))
 
     def run_code_block(self):
-        self.operations_text.configure(state=tk.NORMAL)
-        self.operations_text.delete(1.0, tk.END)
-        self.operations_text.configure(state=tk.DISABLED)
+        self.clear()  # clear the operations log
         self.output(f"Running code block...\n")
         
         
@@ -66,7 +64,13 @@ class GUIActions (GUILayout):
         widgets_off_color = [self.label_1, self.label_2, self.label_3, self.code_text, self.operations_text]
         for widget in widgets_off_color:
             widget.configure(bg=off_color)
-
+            
+    def clear(self):
+        #clear the operations log
+        self.operations_text.configure(state=tk.NORMAL)
+        self.operations_text.delete(1.0, tk.END)
+        self.operations_text.configure(state=tk.DISABLED)
+        
     def output(self, output):
         # output to gui
         self.operations_text.config(state=tk.NORMAL)
