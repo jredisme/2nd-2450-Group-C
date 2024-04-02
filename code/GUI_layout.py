@@ -38,8 +38,8 @@ class GUILayout:
         current_text = self.code_text.get("1.0", "end-1c")  # Get the current text in the code block
         non_empty_lines = [line for line in current_text.split("\n") if line.strip()]  # Filter out empty lines
         current_lines = len(non_empty_lines)  # Count the non-empty lines
-        # if the number of lines exceeds 100, delete the last line
-        if current_lines > 100:
+        # if the number of lines exceeds 250, delete the last line
+        if current_lines > 250:
             # delete the last line
             self.code_text.delete(f"{current_lines}.0", tk.END)
-            messagebox.showwarning("Warning", "Only 100 registers are available. Please remove some lines and try again")
+            messagebox.showwarning("Warning", "Only 250 registers are available. Please remove some lines and try again")

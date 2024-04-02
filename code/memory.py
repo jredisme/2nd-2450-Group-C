@@ -1,6 +1,6 @@
 class Memory():
     '''Memory class, handles memory-related operations'''
-    def __init__(self, size=100):
+    def __init__(self, size=250):
         self._registers = [0] * size
     
     def load(self, operand):

@@ -40,6 +40,6 @@ class Execute:
                         break
             if sim._op not in (40, 41, 42):  # if not a branch op
                 sim._pc += 1
-        if sim._pc > 99:
+        if sim._pc > 249:
             gui.output("Error, Program too long.\n") #front end function
         memory.clear() #clear memory for next program

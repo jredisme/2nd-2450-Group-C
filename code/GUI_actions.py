@@ -19,11 +19,11 @@ class GUIActions (GUILayout):
             try:                         
                 program = Process.read_txt(file_path)
                 # only take the first 100 lines of the file
-                if len(program) > 100:
-                    program = program[:100] # take the first 100 lines
-                    messagebox.showwarning("Warning", "Only 100 registers are available. Only the first 100 lines will be used. Please remove some lines and try again")
+                if len(program) > 250:
+                    program = program[:250] # take the first 100 lines
+                    messagebox.showwarning("Warning", "Only 250 registers are available. Only the first 250 lines will be used. Please remove some lines and try again")
                 for line in program:
-                    self.code_text.insert(tk.END, f"{line}\n")
+                    self.code_text.insert(tk.END, f"{line}")
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         else:
@@ -42,7 +42,14 @@ class GUIActions (GUILayout):
                 messagebox.showerror("Error", str(e))
 
     def run_code_block(self):
+        self.operations_text.configure(state=tk.NORMAL)
+        self.operations_text.delete(1.0, tk.END)
+        self.operations_text.configure(state=tk.DISABLED)
+        self.output(f"Running code block...\n")
+        
+        
         program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
+
         try:
             self.memory.load_program(program)   # load program from the user text input into the sim
             Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
@@ -75,7 +82,7 @@ class GUIActions (GUILayout):
         def submit():
             try:
                 value = int(entry.get())  #check for int
-                value = self.memory.truncate(value)  #truncate if the user value exceeds 4 digits
+                value = self.memory.truncate(value)  #truncate if the user value exceeds 6 digits
                 self.memory._registers[self.sim._operand] = value  # place user input into memory
                 entry_window.destroy()  # close user input window
             except ValueError:
