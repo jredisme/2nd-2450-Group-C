@@ -48,6 +48,13 @@ class UVSim():
         # stop the program
         return True
     
+    def clear(self):
+        # reset sim 
+        self._accumulator = 0  
+        self._pc = 0 
+        self._operand = 0
+        self._op = 0
+    
     def get_accumulator(self):
         return self._accumulator
     
