@@ -7,7 +7,7 @@ class Execute:
             # The gui performs input/output operations
             # Memory performs load/store operations and truncate to avoid overflow
 
-        sim._pc = 0
+        sim.clear() #reset sim values
         while sim._pc < memory.len():
             sim._op = memory._registers[sim._pc] // 100
             sim._operand = memory._registers[sim._pc] % 100
