@@ -9,8 +9,8 @@ class Execute:
 
         sim.clear() #reset sim values
         while sim._pc < memory.len():
-            sim._op = memory._registers[sim._pc] // 100
-            sim._operand = memory._registers[sim._pc] % 100
+            sim._op = memory._registers[sim._pc] // 1000
+            sim._operand = memory._registers[sim._pc] % 1000
             match sim._op:
                 case 10: #read
                     gui.read() #front end function
