@@ -44,9 +44,17 @@ class GUIActions (GUILayout):
     def run_code_block(self):
         self.clear()  # clear the operations log
         self.output(f"Running code block...\n")
-        
-        
+
         program = [int(line.strip()) for line in self.code_text.get(1.0, tk.END).split("\n") if line.strip()]
+
+        for i in range(len(program)):
+            line = program[i]
+            if 9999 >= line > 0:
+                num_str = str(line)
+                mid_index = len(num_str) // 2
+                new_num_str = num_str[:mid_index] + '0' + num_str[mid_index:]
+                new_num = int(new_num_str)
+                program[i] = new_num
 
         try:
             self.memory.load_program(program)   # load program from the user text input into the sim
