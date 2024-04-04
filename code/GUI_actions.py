@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, colorchooser
 from execute_program import Execute
 from process_program import Process
+from uvsim import UVSim
+from memory import Memory
 
 class GUIActions (GUILayout):
     '''This class performs GUI functions and inherits from GUILayout'''
@@ -114,3 +116,11 @@ class GUIActions (GUILayout):
         # write a word from memory to gui
         value = self.memory._registers[self.sim._operand]
         self.output(f"Write Op: Value at register {self.sim._operand}: {value}\n")
+
+    def open_new(self):
+        my_sim = UVSim()  # initialize simulator
+        my_memory = Memory(250)  # initialize Memory object with 250 registers
+        my_gui = GUIActions(my_sim, my_memory)  # perform GUI actions
+        my_gui.main.mainloop()  # loops through GUI operations while GUi is open
+
+

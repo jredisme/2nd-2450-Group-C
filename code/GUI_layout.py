@@ -13,6 +13,7 @@ class GUILayout:
         self.menu_bar = tk.Menu(self.main)
         self.file_menu = tk.Menu(self.menu_bar, tearoff=0)  # create file menu
         self.file_menu.add_command(label="Open", command=self.open_file)  # call open_file
+        self.file_menu.add_command(label="Open New", command=self.open_new)  # call open_new_file
         self.file_menu.add_command(label="Save Code Block", command=self.save_code_block)  # call save_code_block
         self.file_menu.add_command(label="Run Code Block", command=self.run_code_block)  # call run_code_block
         self.file_menu.add_command(label="Configure Color Scheme", command=self.configure_color_scheme)
