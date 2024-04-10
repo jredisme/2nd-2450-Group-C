@@ -1,97 +1,165 @@
 Milestone 4 Design Document
-03/22/2024
+04/12/2024
 Jaren Mease, Jared Acosta, Brandon Woodruff, Colton Evans 
 
 Overview:
-This milestone will include a simple virtual machine that can interpret machine language called BasicML. The program will handle a 100-word memory and will provide basic machine operations such as Read and Write. It will also handle basic arithmetic as well. The user can interact with the virtual machine via a GUI. 
+This program will simulate a simple virtual machine that can interpret a machine language called BasicML. The program will handle a 250-word memory and will perform basic machine operations, such as read/write, load/store, arithmetic, branching, and halt. A BasicML program may contain either four-digit or six-digit word values (but not both). 
+The program will allow a user to interact with the virtual machine via a GUI. The user can select and open text files from the file directory. The user can view, edit, save, and run BasicML code from the GUI. The user can run multiple BasicML programs at once. The user can also change the GUI background and widget colors. 
 
-User Story:
+User Story #1:
 “As a computer science student, Taylor wants to run BasicML programs with I/O, Load/Store, Arithmetic, and Control instructions on the UVSim simulator so that she can learn more about machine language and computer architecture.”
 
 User Story #2:
 "As a member of this project for "UVSim", Joe wants the program to execute correct BasicML codes while bypassing any possible input errors so that the program will run even if there are errors in the commands."
 
+
 Use Case 1:
 Actor: The program, 
-System: The Load function, 
+System: The load function, 
 Goal: Successfully load a value into the accumulator. 
 Steps:
-1. The program acts upon a Load instruction by calling the Load function with the operand and memory
-2. The Load Function loads the memory location with the operand into the accumulator.
+1. The program acts upon a load instruction by calling the load function with the operand and memory.
+2. The load function loads the memory location with the operand into the accumulator.
 
 Use Case 2:
 Actor: The program,
-System: The Store function,
-Goal: Successfully store a value from the accumulator to memory
+System: The store function,
+Goal: Successfully store a value from the accumulator to memory.
 Steps:
-1. The program acts upon a Store instruction by calling the Store function with the accumulator, operand and memory
-2.  The Store function stores the accumulator value into the memory location based on the operand.
+1. The program acts upon a store instruction by calling the store function with the accumulator, operand and memory.
+2. The store function stores the accumulator value into the memory location based on the operand.
 
 Use Case 3:
 Actor: The program,
-System: the Multiply function,
-Goal: Successfully multiply a value in memory with the value in the accumulator.
+System: The add function,
+Goal: To successfully add a value in memory to the accumulator.
 Steps:
-1. The program acts upon a Multiply instruction by calling the Multiply function with the accumulator, operand, and memory
-2. The Multiply function multiplies the accumulator with the value stored in memory.
+1. The program acts upon a add instruction by calling the add function with the accumulator, operand, and memory.
+2. The add function adds the accumulator with the value stored in memory, leaving the result in the accumulator.
 
 Use Case 4:
 Actor: The program,
-System: the Divide function,
-Goal: Successfully Divide a value in the accumulator by the value in memory.
+System: the subtract function,
+Goal: To successfully subtract a value in memory from the accumulator and store it in the accumulator.
 Steps:
-1. The program acts upon a Divide instruction by calling the Divide function with the accumulator, operand, and memory
-2. The Divide function Divides the accumulator by the value stored in memory.
+1. The program acts upon a subtract instruction by calling the subtract function with the accumulator, operand, and memory.
+2. The subtract function subtracts the accumulator with the value stored in memory, leaving the result in the accumulator.
 
 Use Case 5:
 Actor: The program,
-System: The branch function,
-Goal: to be able to use branch function to jump to another part of the function based on the operand.
+System: the multiply function,
+Goal: Successfully multiply a value in memory with the value in the accumulator.
 Steps:
-1. The program acts upon a Branch instruction by calling the Branch function with the operand.
-2. the Branch function branches the program to go on to the location given by the operand.
+1. The program acts upon a multiply instruction by calling the multiply function with the accumulator, operand, and memory.
+2. The multiply function multiplies the accumulator with the value stored in memory.
 
 Use Case 6:
 Actor: The program,
-System: The branchNeg function,
-Goal: to be able to use branch function to jump to another part of the function based on the operand being positive or negative.
+System: the divide function,
+Goal: Successfully divide a value in the accumulator by the value in memory.
 Steps:
-1. The program acts upon a BranchNeg instruction by calling the BranchNeg function with the operand.
-2. The BranchNeg function checks if the value of the accumulator is positive or negative
-3. If the value is Negative, the function jumps the program to the location given in the accumulator, operand, and pc.
-4. If the value is positive, the program keeps going without jumping to the location given in the operand.
+1. The program acts upon a divide instruction by calling the divide function with the accumulator, operand, and memory.
+2. The divide function divides the accumulator by the value stored in memory.
 
 Use Case 7:
 Actor: The program,
-System: The branchZero function,
-Goal: to be able to use branch function to jump to another part of the function based on the operand being zero or not.
+System: The branch function,
+Goal: To be able to use branch function to jump to another part of the function based on the operand.
 Steps:
-1. The program acts upon a BranchZero instruction by calling the BranchZero function with the accumulator, operand, pc.
-2. The BranchNeg function checks if the value of the accumulator is zero or not.
-3. If the value is zero, the function jumps the program to the location given in the operand.
-4. If the value is not zero, the program keeps going without jumping to the location given in the operand.
+1. The program acts upon a branch instruction by calling the branch function with the operand.
+2. The branch function branches the program to go on to the location given by the operand.
 
 Use Case 8:
 Actor: The program,
-System: The read_txt function,
-Goal: to be able to convert a .txt file path to a program that is output as lines in the code_text box.
+System: The branchNeg function,
+Goal: To be able to use branch function to jump to another part of the function based on the operand being positive or negative.
 Steps:
-1. The program opens the file path as a read file
-2. The program iterates over each line in the file
-3. The program then appends each line of the file to a list and returns that list
+1. The program acts upon a branchNeg instruction by calling the branchNeg function with the operand.
+2. The branchNeg function checks if the value of the accumulator is positive or negative.
+3. If the value is negative, the function jumps the program to the location given in the accumulator, operand, and pc.
+4. If the value is positive, the program keeps going without jumping to the location given in the operand.
 
 Use Case 9:
 Actor: The program,
-System: The add function,
-Goal: To successfully add a value in memory to the accumulator
+System: The branchZero function,
+Goal: To be able to use branch function to jump to another part of the function based on the operand being zero or not.
 Steps:
- 1. The program acts upon a Add instruction by calling the add function with the accumulator, operand, and memory
-2. The add function adds the accumulator with the value stored in memory, leaving the result in the accumulator
+1. The program acts upon a branchZero instruction by calling the branchZero function with the accumulator, operand, pc.
+2. The branchNeg function checks if the value of the accumulator is zero or not.
+3. If the value is zero, the function jumps the program to the location given in the operand.
+4. If the value is not zero, the program keeps going without jumping to the location given in the operand.
 
 Use Case 10:
 Actor: The program,
-System: the subtract function,
-Goal: To successfully subtract a value in memory from the accumulator and store it in the accumulator
+System: The read_txt function,
+Goal: To be able to convert a .txt file path to a program that is output to a GUI code text box.
 Steps:
- 1. The program acts upon a Subtract instruction by calling the Subtract function with the accumulator, operand, and memory
-2. The subtract function subtract the accumulator with the value stored in memory, leaving the result in the accumulator
+1. The program acts upon a GUI dropdown menu selection by calling the read_text function with a file path.
+2. The read_text function iterates over each line in the file.
+3. The read_text function appends each line of the file to a list and returns that list.
+
+Use Case 11:
+Actor: The program,
+System: The save_code_block function,
+Goal: To save the contents of a GUI code text box as a text file in the file directory.
+Steps:
+1. The program acts upon a GUI dropdown menu selection by calling the save_code_block function.
+2. The save_code_block function opens a file dialog window, prompting the user to save the text of a GUI code text box as a text file.
+3. The save_code_block function iterates through each line in the GUI code text box.
+4. The save_code_block function strips leading and trailing whitespace from each line.
+5. The save_code_block writes each line to the file that is being saved.
+
+Use Case 12:
+Actor: The program,
+System: The run_code_block function,
+Goal: To execute a BasicML program by running the code in a GUI text box.
+Steps:
+1. The program acts upon a GUI dropdown menu selection by calling the run_code_block function.
+2. The run_code_block function clears the GUI output text box.
+3. The run_code_block function iterates through each line in the GUI code text box.
+4. The run_code_block function strips leading and trailing whitespace from each line.
+5. The run_code_block function converts each line into an integer.
+6. The run_code_block function checks whether the code in the code text box contains four or six-digit words.
+7. If the code text box contains four-digit words, thhe run_code_block function converts each word to its six-digit equivalent. 
+8. The run_code_block function loads the code into memory by calling the load_program function with the code list. 
+9. The run_code_block function executes the BasicML program by calling the execute_program function with a simulator and memory. 
+10. The run_code_block outputs the final accumulator value to the GUI output box by calling the output function. 
+
+Use Case 13:
+Actor: The program,
+System: The configure_color_scheme function,
+Goal: To let the user change the GUI background and widget colors.
+Steps:
+1. The program acts upon a GUI dropdown menu selection by calling the configure_color_scheme function.
+2. The configure_color_scheme function opens a color selection window, prompting the user to choose a GUI background color. 
+3. The configure_color_scheme function opens a color selection window, prompting the user to choose a GUI widget color.
+4. The configure_color_scheme function acts on the GUI by configuring the GUI main window to the new background color. 
+5. The configure_color_scheme function acts on the GUI by configuring the GUI widgets to the new widget color. 
+
+Use Case 14:
+Actor: The program,
+System: The read function,
+Goal: To read a word from user keyboard input into memory.
+Steps:
+1. The program acts upon a read instruction by calling the read function.
+2. The read function creates a user input window, prompting the user to enter and submit a word. 
+3. Upon submission, the read function truncates the user entry to avoid overflow errors.
+4. The read function inserts the user value into a specified memory register.
+5. The read function destroys the user input window.
+
+Use Case 15:
+Actor: The program,
+System: The write function,
+Goal: To display a word from memory to the GUI output text box. 
+Steps:
+1. The program acts upon a write instruction by calling the write function. 
+2. The write function gets a value from a specific memory register.
+3. The write function ouputs the value to the GUI output box.
+
+Use Case 16:
+Actor: The program,
+System: The open_new function,
+Goal: To open a new GUI window. 
+Steps:
+1. The program acts upon a GUI dropdown menu selection by calling the open_new function.
+2. The open_new function initializes a new simulator, memory, and GUI.
