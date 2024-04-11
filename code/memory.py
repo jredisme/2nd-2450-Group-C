@@ -14,7 +14,9 @@ class Memory():
     def load_program(self, program):
         # load a program into memory
         for i, instruction in enumerate(program):
-            self._registers[i] = self.truncate(instruction)  # avoid overflow
+            if isinstance(instruction, str):
+                instruction = int(instruction)
+            self._registers[i] = self.truncate(instruction) 
     
     def truncate(self, value):
         # truncate value to six digits to avoid overflow when needed  
