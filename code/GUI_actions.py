@@ -39,7 +39,6 @@ class GUIActions (GUILayout):
                     lines = self.code_text.get(1.0, tk.END).split("\n")
                     stripped_lines = [line.strip() for line in lines if line.strip()]  # Strip leading and trailing whitespace
                     file.write("\n".join(stripped_lines))
-                    self._program = [int(line.strip()) for line in stripped_lines]
             except Exception as e:
                 messagebox.showerror("Error", str(e))
 
