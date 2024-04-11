@@ -19,7 +19,7 @@ Run Python Program
 Replace `'your_directory_path'` and `'your_file.py'` with your actual directory path and Python file name.
 
 How to Use
-- Run the program. A graphical user interface window will pop up. You will be prompted to select a file to run. By selecting, "File" from the tool bar a drop down menu will appear. Select "Open" this will open the computer's directory allowing you to select a file. This file should contain your BasicML program. Each line of the file should contain a four-digit integer.
+- Run the program. A graphical user interface window will pop up. You will be prompted to select a file to run. By selecting, "File" from the toolbar a drop down menu will appear. Select "Open" this will open the computer's directory allowing you to select a file. This file should contain your BasicML program. Each line of the file should contain a four-digit integer.
 
 - If the file is found, the program will read the commands from the file after clicking "Run" from the same drop down menu. Each command should be a 4-digit number. The first two digits are the operation code (op), and the last two digits are the operand.
 
@@ -30,6 +30,12 @@ How to Use
 - After all commands have been read and processed, the program will execute the BasicML program.
 
 - The result of the program will appear in the original window's output text box.
+
+- Write and save code. In the top text box you can write your own machine code or edit other code you've already loaded in. The code must be written with a "+" followed by 4-6 digits, repeat this for each line of code. Once you've written or changed code in the top text box, go to the toolbar and select "Save Code Block". As long as code is in basicML you'll be able to name the file and save it. 
+
+- Configure color scheme. From the toolbar select, "Configure Color Scheme". A color wheel will appear. Click any color on the color wheel then select "ok" in the same box to change the window's primary color. The window will close and open a new one. Click anywhere on the color wheel to select the window's off color and then select "ok". The GUI window's colors should now change to what you've selected.
+
+- Open a new window. From the toolbar select, "Open New". This opens another GUI window.
 
 Input File Format
 - The input file should contain one command per line. Each command should be a 4-digit number. The first two digits are the operation code, and the last two digits are the operand. The file must end with the 4300 Halt Command.
