@@ -57,7 +57,11 @@ class GUIActions (GUILayout):
                     new_num_str = num_str[:mid_index] + '0' + num_str[mid_index:]
                     new_num = int(new_num_str)
                     program[i] = new_num
-            
+                else:
+                    new_num = "%05d" % int(num_str)
+                program[i] = new_num
+            print(program[i])
+        try:
             self.memory.load_program(program)   # load program from the user text input into the sim
             Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
             self.output(f"Final accumulator value: {self.sim._accumulator}\n\n")  # output accumulator value in gui
