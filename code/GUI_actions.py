@@ -61,12 +61,11 @@ class GUIActions(GUILayout):
                     functional_codes = ['10', '11', '20', '21', '30', '31', '32', '33', '40', '41', '42', '43']
                     if num_str[:2] in functional_codes:
                         mid_index = len(num_str) // 2
-                        new_num_str = num_str[:mid_index] + '0' + num_str[mid_index:]
+                        new_num_str = '0' + num_str[:mid_index] + '0' + num_str[mid_index:]
                         new_num = int(new_num_str)
                     else:
-                        new_num = "%05d" % int(num_str)
+                        new_num = "%06d" % int(num_str)
                     program[i] = new_num
-                print(program[i])
             self.memory.load_program(program)  # load program from the user text input into the sim
             Execute.execute_program(self.sim, self, self.memory)  # execute program with Execute class
             self.output(f"Final accumulator value: {self.sim._accumulator}\n\n")  # output accumulator value in gui
