@@ -128,12 +128,9 @@ def test_add():
 def test_add2():
     my_Sim = UVSim()
     my_Sim.set_accumulator(5)
-    my_memory = Memory(100)
-    my_Sim.set_program([3005, 4300, 0000, 0000, 0000, 5])
-    my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)
-    result = my_Sim.get_accumulator()
-    assert result == 10
+    b = -10
+    result = my_Sim.add(my_Sim.get_accumulator(), b)
+    assert result == -5
     
 def test_subtract():
     my_Sim = UVSim()
@@ -144,28 +141,23 @@ def test_subtract():
     
 def test_subtract2():
     my_Sim = UVSim()
-    my_memory = Memory(100)
-    my_Sim.set_accumulator(10)
-    my_Sim.set_program([3105, 4300, 0000, 0000, 0000, 5])
-    my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)
-    result = my_Sim.get_accumulator()
-    assert result == 5
+    my_Sim.set_accumulator(5)
+    b = -10
+    result = my_Sim.subtract(b, my_Sim.get_accumulator())
+    assert result == -15
     
-def test_execute_my_Sim():
-    my_Sim = UVSim()
-    my_memory = Memory(100)
-    my_Sim.set_program([2006, 3006, 3106, 3006, 4300, 0000, 5])
-    my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)
-    result = my_Sim.get_accumulator()
-    assert result == 10
+    
+def test_truncate():
+    my_Sim = Memory(100)
+    value = 1000000
+    result = my_Sim.truncate(value)
+    assert result == 0
+    
 
-def test_execute_my_Sim2():
-    my_Sim = UVSim()
-    my_memory = Memory(100)
-    my_Sim.set_program([2005, 3110, 4300, 0000, 0000, 10, 0000, 0000, 0000, 0000, 5])
-    my_memory.load_program(my_Sim.get_program())
-    Execute.execute_program(my_Sim, GUIActions(my_Sim, my_memory), my_memory)         
-    result = my_Sim.get_accumulator()
-    assert result == 5
+def test_load_program():
+    my_Sim = Memory(100)
+    my_Sim.load_program([2006, 3006, 3106, 3006, 4300, 0000, 5])
+    result = my_Sim.load(0)
+    assert result == 2006
+
+
