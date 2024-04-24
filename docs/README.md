@@ -38,15 +38,15 @@ How to Use
 - Open a new window. From the toolbar select, "Open New". This opens another GUI window.
 
 Input File Format
-- The input file should contain one command per line. Each command should be a 4-digit number. The first two digits are the operation code, and the last two digits are the operand. The file must end with the 4300 Halt Command.
+- The input file should contain one command per line. Each command should be a 4 or 6-digit number. For 4-digit numbers, the first two digits are the operation code, and the last two digits are the operand. The file must end with the 4300 Halt Command. For 6-digit numbers, the first three digits are for the operation code (since operation codes are only digits, a “0” will be the first digit) and the last three are the operand. The file must end with the 043000 Halt Command. 
 
 Here's an example of what an input file might look like:
 - +1007
 - +2007
 - +3008
-- +2109
+- +021009
 - +1010
-- +1110
+- +011010
 - +4300
 
 Here's what that above file does:
@@ -56,11 +56,11 @@ Here's what that above file does:
 
 - 3008: This is an ADD operation. The program will add the value at memory location 08 to the value in the accumulator, storing the result in the accumulator.
 
-- 2109: This is a STORE operation. The program will store the value currently in the accumulator to memory location 09.
+- 021009: This is a STORE operation. The program will store the value currently in the accumulator to memory location 09.
 
 - 1010: This is another READ operation. The program will prompt the user to enter another number, which will be stored in memory location 10.
 
-- 1110: This is a WRITE operation. The program will print the value at memory location 10.
+- 011010: This is a WRITE operation. The program will print the value at memory location 10.
 
 - 4300: This is a HALT operation. The program will stop executing.
 
